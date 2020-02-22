@@ -12,27 +12,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/person"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_margin="10dp"
-        android:background="@null"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_person"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/wifi"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_margin="10dp"
-        android:background="@null"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_wifi"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout
 
