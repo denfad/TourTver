@@ -20,6 +20,7 @@
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+
         tools:context=".MainActivity">
 
 
@@ -27,26 +28,59 @@
             android:id="@+id/bottom_sheet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/krugliye_ugli"
             android:orientation="vertical"
-            app:behavior_hideable="false"
-            app:behavior_peekHeight="70dp"
+            app:behavior_hideable="true"
+            app:behavior_peekHeight="100dp"
             app:layout_behavior="@string/bottom_sheet_behavior">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:background="@drawable/cast_expanded_controller_bg_gradient_light"
-                android:elevation="2dp"
-                android:gravity="center"
-                android:text="Открыть"
-                android:textColor="@android:color/white"
-                android:textSize="30sp"
-                android:textStyle="bold" />
-
-            <ImageView
+                android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_person" />
+                android:background="@drawable/krugliye_ugli"
+                android:elevation="3dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="Название"
+                android:textColor="@android:color/black"
+                android:textSize="25sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/type"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:paddingLeft="15dp"
+                android:text="Тип"
+                android:textColor="@color/place_autocomplete_prediction_primary_text_highlight"
+                android:textSize="20sp"
+                android:textStyle="normal"/>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingEnd="3dp">
+
+                <TextView
+                    android:id="@+id/text"
+                    android:textColor="@android:color/black"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Городской сад Твери занимает археологически заповедную территорию разрушенного Тверского кремля[1]. Он образован в 1931 году в результате объединения Дворцового сада (1776), Губернаторского сада (1831), Общественного сада (1851). Во время Великой Отечественной войны был уничтожен, после войны перепланирован и посажен заново[2].
+
+Сад ограничен с севера правым берегом реки Волги и набережной князя Михаила Ярославича, с юга — Советской улицей, с запада — Волжским проездом, с востока — Свободным переулком, занимает площадь 9 гектаров. В Городском саду расположены памятники А. С. Пушкину, князю Михаилу Тверскому, Карлу Марксу, имеются многочисленные летние кафе, аттракционы и клумбы с цветами, проводятся многочисленные праздники.
+
+В 2009 году проведены работы по благоустройству сада, положена тротуарная плитка, обновлены фонари[3]. Открыта сквозная перспектива на Волгу и церковь Трёх Исповедников с памятником Афанасию Никитину на противоположном берегу реки.
+
+В непосредственной близости от Городского сада расположены Путевой дворец, здание бывшего реального училища (в настоящее время там находится Тверской краеведческий музей) и кинотеатр «Звезда»."
+                    android:textSize="20sp"/>
+
+            </ScrollView>
+
+
 
         </LinearLayout>
 

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Sight {
     private Long id;
+    private String type;
     private String name;
     private String text;
     private double longitude;

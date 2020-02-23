@@ -4,5 +4,5 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="lines">#FA090F</color>
-    <color name="fill">#90CF515B</color>
+    <color name="fill">#90FFFFFF</color>
 </resources>

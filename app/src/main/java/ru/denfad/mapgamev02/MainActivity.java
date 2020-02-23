@@ -20,6 +20,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.Polyline;
@@ -41,7 +42,7 @@ import static android.location.LocationManager.GPS_PROVIDER;
 import static java.lang.String.format;
 
 
-public class MainActivity extends Activity implements OnMapReadyCallback, LocationListener {
+public class MainActivity extends Activity implements OnMapReadyCallback, LocationListener, GoogleMap.OnMarkerClickListener {
 
     MapFragment mapFragment;
 
@@ -52,8 +53,11 @@ public class MainActivity extends Activity implements OnMapReadyCallback, Locati
 
     private List<Sight> sightList = new ArrayList<>();
 
+    private Sight activeSight=new Sight();
 
-
+    private TextView nameText;
+    private TextView typeText;
+    private TextView textText;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -72,9 +76,15 @@ public class MainActivity extends Activity implements OnMapReadyCallback, Locati
         assert locationManager != null;
         locationManager.requestLocationUpdates(GPS_PROVIDER, 0, 0, this);
 
+        textText=findViewById(R.id.text);
+        nameText=findViewById(R.id.name);
+        typeText=findViewById(R.id.type);
         View bottomSheet = findViewById(R.id.bottom_sheet);
+
+
         mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
 
+        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
     }
 
     @Override
@@ -86,6 +96,38 @@ public class MainActivity extends Activity implements OnMapReadyCallback, Locati
 
     }
 
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        Thread thread = new Thread(new ActiveSightThread(marker.getTitle()));
+        thread.start();
+        if (sightList != null) {
+            for (Sight s : sightList) {
+                if (s.getName().equals(marker.getTitle())) {
+                    nameText.setText(s.getName());
+                    typeText.setText(s.getType());
+                    textText.setText(s.getText());
+                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
+                }
+            }
+        }
+
+
+        return true;
+    }
+
+
+    private class ActiveSightThread implements Runnable{
+        private String name;
+        ActiveSightThread(String name){
+            this.name=name;
+        }
+        @Override
+        public void run() {
+            synchronized (activeSight) {
+
+            }
+        }
+    }
     private  class HttpThread extends AsyncTask<Void, Void, List<Sight>> {
 
         @Override
@@ -97,8 +139,9 @@ public class MainActivity extends Activity implements OnMapReadyCallback, Locati
         @Override
         protected List<Sight> doInBackground(Void... voids) {
             OkHttpClient httpClient = new OkHttpClient();
+            //ipconfig
             Request request = new Request.Builder()
-                    .url("http://192.168.1.5:8080/sight/")
+                    .url("http://192.168.1.4:8080/sight/")
                     .get()
                     .build();
 
@@ -131,6 +174,7 @@ public class MainActivity extends Activity implements OnMapReadyCallback, Locati
     public void onMapReady(GoogleMap retMap) {
         map = retMap;
         setUpMap();
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -138,6 +182,7 @@ public class MainActivity extends Activity implements OnMapReadyCallback, Locati
     public void setUpMap() {
         map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         map.getUiSettings().setMyLocationButtonEnabled(false);
+        map.setOnMarkerClickListener(this);
         new HttpThread().execute();
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
@@ -147,8 +192,10 @@ public class MainActivity extends Activity implements OnMapReadyCallback, Locati
     }
 
     private void generateMarkers(){
-        for(Sight s:sightList){
-            map.addMarker(new MarkerOptions().title(s.getName()).position(new LatLng(s.getLatitude(),s.getLongitude())));
+        if(sightList!=null) {
+            for (Sight s : sightList) {
+                map.addMarker(new MarkerOptions().title(s.getName()).position(new LatLng(s.getLatitude(), s.getLongitude())));
+            }
         }
     }
 
